@@ -13,7 +13,9 @@ Win_Width=560
 Win_Height=512
 
 
-'''
+
+class Bird(pygame.sprite.Sprite):
+	'''
 
 ta klasa definuje zachowanie ptaszka
 ptaszek może lecić w góre lub spadać na dół
@@ -28,7 +30,6 @@ up_speed=prędkość polotu ptaszka w góre. wyrażana w pikseli/msec
 down_speed=prędkość polotu ptaszka w dół. wyrażana w pikseli/msec
 msec_to_climb=długość polotu ptaszka w góre, ile milisekund potrzebuje ptaszek
 żeby wzlecić do góry'''
-class Bird(pygame.sprite.Sprite):
 
 	width=30
 	height=30
@@ -47,13 +48,40 @@ class Bird(pygame.sprite.Sprite):
 		self._mask_wingup=pygame.mask.from_surface(self._image_wingup)
 		self._mask_wingdown=pygame.mask.from_surface(self._image_wingdown)
 
-	def mask(self):
-		if pygame.time.get_ticks()%100>=250:
+
+	def update (self, delta_frame=1)
+	#funkcja update jest używana żeby zrobić wzlot ptacha płynnym
+	if self.msec_to_climb>0:
+		frac_climb_done=1-self.msec_to_climb/Bird.climb_duration
+		self.y-=(Bird.up_speed)*frames_to_mseconds(delta_frame)*(1-math.cos(frac_climb_done*math*pi))
+		self.msec_to_climb == frames_to_mseconds(delta_frame)
+
+	else:
+		self.y +=Bird.down_speed*frames_to_mseconds(delta_frame)
+
+
+	@property
+	def image(self):
+		if pygame.time.get_ticks()%500>=250:
 			return self._mask_wingup
 		else:
 			return self._mask_wingdown
-#funkcja pobierająca obrazy i zwracająca dict z nimi
+
+	@property
+	def rect(self):
+		return Rect(self.x, self.y, Bird.width, Bird.height)
+	
+
+	
+	
+	def mask(self):
+		if pygame.time.get_ticks()%500>=250:
+			return self._mask_wingup
+		else:
+			return self._mask_wingdown
+
 def load_image():
+	#funkcja pobierająca obrazy i zwracająca słownik (klucz-znaczenie) z nimi
 	def load_image(img_name):
 		file_name=os.path.join('.','images',img_name)
 		img=pygame.image.load(file_name)
@@ -62,9 +90,17 @@ def load_image():
 		return {
 			'background':load_image('background.png').
 			'dinosaur':load_image('dinosaur.png').
-			'bird_wingup':load_image('bird_wingup.png').
-			'bird_wingdown':load_image('bird_wingdown.png').
+			'bird-wingup':load_image('bird_wingup.png').
+			'bird-wingdown':load_image('bird_wingdown.png').
+			'bird-death': load_image('bird_death.png')
 		}
+
+class Dinosaur(pygame.sprite.Sprite):
+	#klasa opisująca latających dynozauwrów których trzeba będzie omijać
+    width=100
+    height=40
+	add_interval=3000 #interwal pojawianija się dynozawrów w msec
+		
 
 #konwertujemy kadry w milisekundy z ustalonym fps
 def frames_to_mseconds(frame,fps=FPS):
@@ -86,4 +122,14 @@ def main():
 
 	score=pygame.font.SysFont(None,32,bold=True)
 
-	images=pobierz_obrazy()
+	images=load_image()
+
+
+
+
+
+
+
+if __name__='__main__':
+# start programu
+	main()
