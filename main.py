@@ -1,6 +1,6 @@
 import math
 import os
-from random import randit
+from random import *
 from collections import deque
 import pygame
 from pygame.locals import *
@@ -16,11 +16,9 @@ Win_Height=512
 
 class Bird(pygame.sprite.Sprite):
 	'''
-
 ta klasa definuje zachowanie ptaszka
 ptaszek może lecić w góre lub spadać na dół
 zadaniem ptaszka jest omijanie latających dynozauwrów z góry lub z dołu
-
 zmienne:
 x = kordynata x ptaszka
 y = kordynata y ptaszka
@@ -49,15 +47,15 @@ msec_to_climb=długość polotu ptaszka w góre, ile milisekund potrzebuje ptasz
 		self._mask_wingdown=pygame.mask.from_surface(self._image_wingdown)
 
 
-	def update (self, delta_frame=1)
+	def update (self, delta_frame=1):
 	#funkcja update jest używana żeby zrobić wzlot ptacha płynnym
-	if self.msec_to_climb>0:
-		frac_climb_done=1-self.msec_to_climb/Bird.climb_duration
-		self.y-=(Bird.up_speed)*frames_to_mseconds(delta_frame)*(1-math.cos(frac_climb_done*math*pi))
-		self.msec_to_climb == frames_to_mseconds(delta_frame)
+		if self.msec_to_climb>0:
+			frac_climb_done=1-self.msec_to_climb/Bird.climb_duration
+			self.y-=(Bird.up_speed)*frames_to_mseconds(delta_frame)*(1-math.cos(frac_climb_done*math*pi))
+			self.msec_to_climb == frames_to_mseconds(delta_frame)
 
-	else:
-		self.y +=Bird.down_speed*frames_to_mseconds(delta_frame)
+		else:
+			self.y +=Bird.down_speed*frames_to_mseconds(delta_frame)
 
 
 	@property
@@ -88,19 +86,13 @@ def load_image():
 
 		img.convert()
 		return {
-			'background':load_image('background.png').
-			'dinosaur':load_image('dinosaur.png').
-			'bird-wingup':load_image('bird_wingup.png').
-			'bird-wingdown':load_image('bird_wingdown.png').
-			'bird-death': load_image('bird_death.png')
+			'background':load_image('background.png'),
+			'bird-wingup':load_image('bird_wingup.png'),
+			'bird-wingdown':load_image('bird_wingdown.png')
+			#'bird-death': load_image('bird_death.png')
 		}
 
-class Dinosaur(pygame.sprite.Sprite):
-	#klasa opisująca latających dynozauwrów których trzeba będzie omijać
-    width=100
-    height=40
-	add_interval=3000 #interwal pojawianija się dynozawrów w msec
-		
+
 
 #konwertujemy kadry w milisekundy z ustalonym fps
 def frames_to_mseconds(frame,fps=FPS):
@@ -124,12 +116,30 @@ def main():
 
 	images=load_image()
 
+	bird=Bird(60,int(Win_Height/2-Bird.height/2),2,(images['bird-wingup'],images['bird-wingdown']))
+
+	frame_clock=0
+
+	done = pause = False
+
+	while not done:
+		clock.tick(FPS)
+
+		for i in pygame.event.get():
+			if i.type == QUIT or (i.type == KEYUP and i.type == KEY_ESCAPE):
+				done=True
+				break
+			elif i.type == KEYUP and i.key in (K_PAUSE,K_p):
+				pause=not pause
+			elif i.type == MOUSEBUTTONUP or (i.type == KEYUP and i.type in (K_UP,K_RETURN,K_SPACE)):
+				bird.msec_to_climb=Bird.climb_duration
+
+		if pause:
+			continue
 
 
 
 
-
-
-if __name__='__main__':
+if __name__=='__main__':
 # start programu
 	main()
