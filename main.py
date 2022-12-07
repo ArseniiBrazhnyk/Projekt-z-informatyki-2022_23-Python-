@@ -29,8 +29,8 @@ down_speed=prędkość polotu ptaszka w dół. wyrażana w pikseli/msec
 msec_to_climb=długość polotu ptaszka w góre, ile milisekund potrzebuje ptaszek
 żeby wzlecić do góry'''
 
-	width=30
-	height=30
+	Width=30
+	Height=30
 	up_speed=0.3
 	down_speed=0.17
 	climb_duration=333.3
@@ -51,7 +51,7 @@ msec_to_climb=długość polotu ptaszka w góre, ile milisekund potrzebuje ptasz
 	#funkcja update jest używana żeby zrobić wzlot ptacha płynnym
 		if self.msec_to_climb>0:
 			frac_climb_done=1-self.msec_to_climb/Bird.climb_duration
-			self.y-=(Bird.up_speed)*frames_to_mseconds(delta_frame)*(1-math.cos(frac_climb_done*math*pi))
+			self.y-=(Bird.up_speed)*frames_to_mseconds(delta_frame)*(1-math.cos(frac_climb_done*math.pi))
 			self.msec_to_climb == frames_to_mseconds(delta_frame)
 
 		else:
@@ -67,18 +67,18 @@ msec_to_climb=długość polotu ptaszka w góre, ile milisekund potrzebuje ptasz
 
 	@property
 	def rect(self):
-		return Rect(self.x, self.y, Bird.width, Bird.height)
+		return Rect(self.x, self.y, Bird.Width, Bird.Height)
 	
 
 	
-	
+	@property
 	def mask(self):
 		if pygame.time.get_ticks()%500>=250:
 			return self._mask_wingup
 		else:
 			return self._mask_wingdown
 
-def load_image():
+"""def load_image():
 	#funkcja pobierająca obrazy i zwracająca słownik (klucz-znaczenie) z nimi
 	def load_image(img_name):
 		file_name=os.path.join('.','images',img_name)
@@ -90,7 +90,7 @@ def load_image():
 			'bird-wingup':load_image('bird_wingup.png'),
 			'bird-wingdown':load_image('bird_wingdown.png')
 			#'bird-death': load_image('bird_death.png')
-		}
+		} """
 
 
 
@@ -107,16 +107,16 @@ def main():
 
 	pygame.init()
 	display_surface=pygame.display.set_mode((Win_Width,Win_Height))
-
+	background_1=pygame.Surface((Win_Width,Win_Height))
 	pygame.display.set_caption("Ptaszek z dynozaurami")
 
 	clock=pygame.time.Clock()
 
 	score=pygame.font.SysFont(None,32,bold=True)
 
-	images=load_image()
+ 	#images=load_image()
 
-	bird=Bird(60,int(Win_Height/2-Bird.height/2),2,(images['bird-wingup'],images['bird-wingdown']))
+	bird=Bird(50,int(Win_Height/2-Bird.Height/2),2,(pygame.image.load('bird_wingup.png'),pygame.image.load('bird_wingdown.png')))
 
 	frame_clock=0
 
@@ -137,7 +137,18 @@ def main():
 		if pause:
 			continue
 
+		if 0>=bird.y or bird.y>=Win_Height - Bird.Height:
+			done=True
 
+		for i in (0,Win_Width/2):
+			display_surface.blit(pygame.image.load('background.png'),(i,0))
+
+		bird.update()
+		display_surface.blit(bird.image,bird.rect)
+
+		pygame.display.flip()
+		frame_clock+=1
+	pygame.quit()
 
 
 if __name__=='__main__':
