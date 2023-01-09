@@ -4,9 +4,9 @@ import ptext
 
 
 
-#klassa gra
+#klassa Screen
 class Screen:
-	#inicjacja zmiennych pomocniczcyh
+	#inicjacja zmiennych 
 	def __init__(self):
 		#przechowuje listę z opcjami wyboru
 		self.option_surfaces = []
@@ -111,7 +111,7 @@ class Screen:
 			#odświeżamy ekran
 			pygame.display.flip()
 
-		#metoda help() zawiera w sobie tekst do wyświetlenia
+		#metoda help() zawiera w sobie tekst do wyświetlenia tłumaczący zasady gry
 		def help(self):
 			text="""Celem gry jest ominięcie ptyrodaktyle,
 po zetknięciu z ptyrodaktylem lub 
