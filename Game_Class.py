@@ -62,7 +62,7 @@ class Game:
         self.pteraGroup = pygame.sprite.Group()  
               
         #tworzenie obiektu ptak
-        self.bird = Bird_Class.FlappyBird(50, int(self.SCREEN_HEIGHT / 2))  
+        self.bird = Bird_Class.Bird(50, int(self.SCREEN_HEIGHT / 2))  
               
         #dodawanie obiektu ptak do grupy  
         self.birdGroup.add(self.bird)  
