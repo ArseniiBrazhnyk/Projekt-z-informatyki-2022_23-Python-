@@ -1,6 +1,5 @@
 import pygame 
 from pygame.locals import *
-import test1
 import ptext
 
 
