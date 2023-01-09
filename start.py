@@ -2,7 +2,6 @@
 import pygame 
 from pygame.locals import *
 import Screen_Class
-import test1
 import Game_Class
 import functions
 import data_functions
