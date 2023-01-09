@@ -1,3 +1,6 @@
+#funkcja ptext() służy do wyświetlnia długiego tekstu na ekranie
+#to nie jest moja funkcja, jest wypożyczona, link w 9 linijce
+
 # ptext module: place this in your import directory.
 
 # ptext.draw(text, pos=None, **options)
