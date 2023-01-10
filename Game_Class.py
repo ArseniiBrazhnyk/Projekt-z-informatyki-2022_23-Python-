@@ -30,7 +30,7 @@ class Game:
         self.fontStyle = pygame.font.SysFont('arial black', 55) 
         #czarny kolor
         self.black = (0,0,0)
-
+        #zmienne definiujące szybkość przesuwania ziemi - licznik i szybkość
         self.baseScroll = 0  
         self.scrollSpeed = 4  
 
@@ -191,9 +191,10 @@ class Game:
                     #zapisywanie do zmiennej bieżącego czasu
                     self.lastPtera = timeNow  
                     
-                        # scrolling the base  
+                # przesuwanie ziemi  
                 self.baseScroll -= self.scrollSpeed  
-                if abs(self.baseScroll) > 70:  
+                if abs(self.baseScroll) > 70:
+                    #zerowani licznika przesuwania ziemi  
                     self.baseScroll = 0  
                               
                 # update pteradaktyla
