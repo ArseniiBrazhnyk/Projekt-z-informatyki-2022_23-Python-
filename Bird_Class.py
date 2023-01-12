@@ -38,7 +38,7 @@ class Bird(pygame.sprite.Sprite):
         # ustawienie pozycji ptaka  
         self.rect.center = [x_coordinate, y_coordinate]  
         
-        # defining the initial speed of the bird  
+        # szybkość początkowa ptaka  
         self.speed = 0  
         self.pressed = False  
       
